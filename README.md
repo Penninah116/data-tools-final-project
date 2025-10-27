@@ -235,23 +235,32 @@ ORDER BY br.borrow_date DESC;
 ```
   **Ouput upon Inserting & Viewing Student can view all available books in the library**
 
-<img width="940" height="576" alt="image" src="https://github.com/user-attachments/assets/6e950b59-25de-4eef-82ca-d5c34ff57d85" />
+<img width="881" height="580" alt="image" src="https://github.com/user-attachments/assets/2eb6e85a-ea00-4f02-b225-07eb38a085cd" />
+
 
 **View all borrow records with student and book details**
 
-<img width="946" height="492" alt="image" src="https://github.com/user-attachments/assets/940093bf-4c08-4cc4-b34c-7ae5e7294209" />
+<img width="932" height="374" alt="image" src="https://github.com/user-attachments/assets/bda3cb33-2242-4c39-b1f8-26dba183dd13" />
 
 
-  **User can also delete their purchased ticket**
+
+  **User can view Borrowed Books by Entering Your ID**
 
 ```sql
-DELETE FROM tickets
-WHERE customer_id = 1 AND event_id = 1;
+SELECT 
+  br.id AS borrow_id,
+  b.title AS book_title,
+  br.borrow_date,
+  br.return_date
+FROM borrow_records br
+JOIN books b ON br.book_id = b.id
+WHERE br.student_id = 3  -- Replace 3 with the student's actual ID
+ORDER BY br.borrow_date DESC;
 
 ```
-**User cancels (deletes) their ticket with id=1**
+**User can view Borrowed Books by Entering Your ID**
 
-<img width="1900" height="838" alt="image" src="https://github.com/user-attachments/assets/c16dbed7-1f6b-4340-b135-f9592b64ae41" />
+<img width="959" height="607" alt="image" src="https://github.com/user-attachments/assets/ea44881a-3b9a-4586-976c-e3556b399fc8" />
 
 
 
@@ -302,16 +311,16 @@ ORDER BY title;
 
 ## 🛡 Security Notes <a name="security-notes"></a>
 
-See full explanation of RLS, policies, and admin functions in 👉 [security_notes.md](https://github.com/DENNIS-MURITHI/Data-Fundamentals/blob/data_test_branch/security_notes.md)
+See full explanation of RLS, policies, and admin functions in 👉 [security_notes.md](https://github.com/Penninah116/Data-Fundamentals/blob/data_test_branch/security_notes.md)
 
 
 ---
 
 ## 👥 Authors <a name="authors"></a>
 
-- **Evans Kibet**  
-  GitHub: [@EvansKibet](https://github.com/Evans-dotcom)  
-  LinkedIn: [Evans Kibet](https://www.linkedin.com/in/evans-langat-680b05342/)  
+- **Penninah Wambui**  
+  GitHub: [@Penninah116](https://github.com/Penninah116)  
+  LinkedIn: [Penninah Wanjiru](https://www.linkedin.com/in/Penninah-wanjiru-680b05342/)  
 
 ---
 
