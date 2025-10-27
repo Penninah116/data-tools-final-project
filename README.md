@@ -326,7 +326,7 @@ See full explanation of RLS, policies, and admin functions in 👉 [security_not
 
 ## 🔭 Future Features <a name="future-features"></a>
 
-- Integrate with front-end event booking portal
+- Integrate with library management portal
 - Add analytics for most attended events and top-paying customers
 - Implement audit logging for admin actions (create, update, delete events)
 - Enable ticket QR code generation for entry validation
