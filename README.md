@@ -1,214 +1,371 @@
-# My Library Management SQL Project
+# 🎟 Library Management Database – Admin & User Roles in Supabase
 
-<a name="readme-top"></a>
+<div align="center">
+  <img width="314" height="285" alt="Supabase Logo" src="https://github.com/user-attachments/assets/20661293-a214-4004-9042-657102fb0710" />
+  <br/>
+  <h3><b>Data Fundamentals Project</b></h3>
+</div>
 
-<!-- TABLE OF CONTENTS -->
+---
 
-# 📗 Table of Contents
+## 📗 Table of Contents
 
-- [My SQL Project](#about-project)
-- [📗 Table of Contents](#-table-of-contents)
-- [📖 My SQL Project](#about-project)
-  - [🛠 Built With ](#-built-with-)
-    - [Tech Stack ](#tech-stack-)
-    - [Key Features ](#key-features-)
-  - [💻 Getting Started ](#-getting-started-)
-    - [Prerequisites](#prerequisites)
-    - [Setup](#setup)
-    - [Usage](#usage)
-  - [👥 Authors ](#-authors-)
-  - [🔭 Future Features ](#-future-features-)
-  - [🤝 Contributing ](#-contributing-)
+* [📖 About the Project](#about-project)  
+* [🛠 Built With](#built-with)  
+* [🚀 Live Demo](#live-demo)  
+* [💻 Getting Started](#getting-started)  
+* [💾 Sample SQL Queries & Policies](#sample-sql-queries)   
+* [🛡 Security Notes](#security-notes)  
+* [👥 Authors](#authors)  
+* [🔭 Future Features](#future-features)  
+* [🤝 Contributing](#contributing)  
+* [⭐️ Show your support](#support)  
+* [🙏 Acknowledgements](#acknowledgements)  
+* [❓ FAQ](#faq)  
+* [📝 License](#license)  
 
-<!-- Library Management-->
+---
 
-# 📖 My SQL Project <a name="about-project"></a>
+# 📖 About the Project <a name="about-project"></a>
 
-**My SQL Project** is a simple Database that uses SQL, Postgres via Supabase and R to create, query and secure a **Library Management** database.
+This project demonstrates an **Library Management Database** implemented using Supabase (PostgreSQL).
+It integrates Row Level Security (RLS), Admin & User roles, and custom SQL policies to control data access and enforce least privilege principles.
+
+The System includes:  
+- ✅ Tables for students, books, and borrow_records
+- ✅ UUID-based authentication via Supabase Auth
+- ✅ Role-based access policies (Admin vs Student)
+- ✅ Row Level Security (RLS) on all tables
+- ✅ SQL functions for admin-only operations
+
+---
 
 ## 🛠 Built With <a name="built-with"></a>
 
-### Tech Stack <a name="tech-stack"></a>
-- Supabase
-- Postgres DB
-  
+- **Supabase** – PostgreSQL + Auth + Policy Management  
+- **PostgreSQL** – Structured database engine and tables  
+- **RLS Policies** - Fine-grained access control
+- **SQL Functions** – Role-based admin actions
 
-<!-- Features -->
+---
 
-### Key Features <a name="key-features"></a>
+## 🚀 Live Demo <a name="live-demo"></a>
 
-- [ ] **Tables**
-- [ ] **Schema**
-- [ ] **Access control**
+- [Supabase Dashboard](https://supabase.com/dashboard/project/pwsbzyjjqwxtqzzpaghy)  
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- GETTING STARTED -->
+---
 
 ## 💻 Getting Started <a name="getting-started"></a>
 
-To rebuild this DB, follow these steps.
-
 ### Prerequisites
+- Supabase account
+- Basic SQL and PostgreSQL knowledge
+-Git installed
+- GitHub account for project submission  
 
-To run this project, you need:
-- [A Supabase account](https://supabase.com/)
-- [Knowledge on SQL](https://www.w3schools.com/sql/)
-- Supabase SQL editor access
-
-<!-- ### Setup -->
 ### Setup
 
-Copy the contents of this Readme.md to your Project's file
+```bash
+git clone https://github.com/Penninah116/library-management-db
+cd library-management-db
 
-OR
-
-Clone this repository to your desired folder:
-
-```sh
-  git clone https://github.com/Penninah116/readme-template-data
-  cd budget-app
 ```
 
-<!-- ### DB Creation -->
+```bash
+Usage
 
-### DB Schema
+Open Supabase SQL editor
 
-- The DB is made up of 3 tables. Eaach table has 5 entries.
-- To create the table, you will need a schema as shown below:
+Run schema.sql to create tables & sample data
 
-```sql
--- Drop tables if they exist (for re-runs)
-DROP TABLE IF EXISTS borrow_records;
-DROP TABLE IF EXISTS students;
-DROP TABLE IF EXISTS books;
+Apply UUID + RLS setup:
+Enable Row Level Security
+-- Enable RLS
+ALTER TABLE students ENABLE ROW LEVEL SECURITY;
+ALTER TABLE books ENABLE ROW LEVEL SECURITY;
+ALTER TABLE borrow_records ENABLE ROW LEVEL SECURITY;
 
--- Create students table
-CREATE TABLE students (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(100),
-    email VARCHAR(100) UNIQUE,
-    enrollment_year INT,
-    major VARCHAR(50)
-);
 
--- Create books table
-CREATE TABLE books (
-    id SERIAL PRIMARY KEY,
-    title VARCHAR(150),
-    author VARCHAR(100),
-    genre VARCHAR(50),
-    published_year INT
-);
 
--- Create borrow_records table
-CREATE TABLE borrow_records (
-    id SERIAL PRIMARY KEY,
-    student_id INT REFERENCES students(id),
-    book_id INT REFERENCES books(id),
-    borrow_date DATE,
-    return_date DATE
-);
-
--- Insert sample students
-INSERT INTO students (name, email, enrollment_year, major) VALUES
-('Jane Doe', 'jane.doe@example.com', 2022, 'Literature'),
-('John Smith', 'john.smith@example.com', 2021, 'History'),
-('Alice Kim', 'alice.kim@example.com', 2023, 'Computer Science'),
-('Mohamed Ali', 'mohamed.ali@example.com', 2020, 'Philosophy'),
-('Grace Njeri', 'grace.njeri@example.com', 2022, 'Library Science');
-
--- Insert sample books
-INSERT INTO books (title, author, genre, published_year) VALUES
-('1984', 'George Orwell', 'Dystopian', 1949),
-('To Kill a Mockingbird', 'Harper Lee', 'Classic', 1960),
-('The Great Gatsby', 'F. Scott Fitzgerald', 'Classic', 1925),
-('Sapiens', 'Yuval Noah Harari', 'Non-fiction', 2011),
-('The Hobbit', 'J.R.R. Tolkien', 'Fantasy', 1937);
-
--- Insert sample borrow records
-INSERT INTO borrow_records (student_id, book_id, borrow_date, return_date) VALUES
-(1, 2, '2025-10-01', '2025-10-10'),
-(2, 1, '2025-09-25', NULL),
-(3, 5, '2025-10-05', '2025-10-12'),
-(4, 3, '2025-10-03', NULL),
-(5, 4, '2025-10-02', '2025-10-09');
+Apply user vs admin policies.
 ```
 
-- The Tables should look like this in Supabase:
+---
 
-books:
-<img width="1920" height="1032" alt="image" src="https://github.com/user-attachments/assets/b8c8a94e-29f7-4a9e-9125-19e739353752" >
+## 💾 Sample SQL Queries & Policies <a name="sample-sql-queries"></a>
 
+### 1️⃣ User Policies
+```sql
+-- Students can view only their own borrow records
+CREATE POLICY "Students can view their own borrow records"
+ON borrow_records
+FOR SELECT
+USING (
+  student_id = current_setting('request.student_id')::INT
+);
+```sql
+ -- Students can insert their own borrow records
+CREATE POLICY "Students can insert their own borrow records"
+ON borrow_records
+FOR INSERT
+WITH CHECK (
+  student_id = current_setting('request.student_id')::INT
+);
 
-borrow_records:
-<<img width="1920" height="1032" alt="image" src="https://github.com/user-attachments/assets/4d87bc9c-7820-4ba7-80a0-08cbd0937a9c" />
-
-
-students:
-< <img width="1920" height="1032" alt="image" src="https://github.com/user-attachments/assets/7d3bc459-d67d-4883-a4fe-8a3fb042efde" />
-
-
-
-
-- The ERD screenshot from Supabase looks like this: 
-<<img width="1920" height="1032" alt="image" src="https://github.com/user-attachments/assets/d77ad4e2-55e1-4770-894b-f929940685aa" />
-" />
-
-- To test the table, I used two queries: 
+```
 
 ```sql
-SELECT s.name AS student_name, b.title AS book_title, br.borrow_date, br.return_date
-FROM borrow_records br
-JOIN students s ON br.student_id = s.id
-JOIN books b ON br.book_id = b.id
-WHERE s.name = 'Jane Doe';
-````
+--Restrict Students to Only View Books They've Borrowed
+CREATE POLICY "Students can view borrowed books only"
+ON books
+FOR SELECT
+USING (
+  EXISTS (
+    SELECT 1
+    FROM borrow_records
+    WHERE borrow_records.book_id = books.id
+    AND borrow_records.student_id = current_setting('request.student_id')::INT
+  )
+);
+
+```
+---
+
+### 2️⃣ Admin Policies
+```sql
+--  Admins can manage all borrow records
+
+CREATE POLICY "Admins have full access to borrow records"
+ON borrow_records
+FOR ALL
+USING (
+  EXISTS (
+    SELECT 1 FROM students WHERE students.id = borrow_records.student_id AND students.major = 'Admin'
+  )
+);
 
 ```sql
-SELECT s.name AS student_name, b.title AS book_title, br.borrow_date
+-- Admins can manage all books
+CREATE POLICY "Admins have full access to books"
+ON books
+FOR ALL
+USING (
+  EXISTS (
+    SELECT 1 FROM students WHERE auth_user_id = auth.uid() AND major = 'Admin'
+  )
+);
+
+```
+
+```sql
+--Admins can manage all student records
+CREATE POLICY "Admins can manage all students"
+ON students
+FOR ALL
+USING (
+  EXISTS (
+    SELECT 1 FROM users WHERE users.user_uuid = auth.uid() AND users.role = 'admin'
+  )
+);
+
+```
+
+---
+ ### 3️⃣ Example CRUD Queries with their output.
+ ```sql
+--List all books currently borrowed (not yet returned)
+SELECT b.title, s.name AS borrower, br.borrow_date
 FROM borrow_records br
-JOIN students s ON br.student_id = s.id
 JOIN books b ON br.book_id = b.id
+JOIN students s ON br.student_id = s.id
 WHERE br.return_date IS NULL;
-````
 
-- Here are the results of the queries:
-<<img width="1920" height="1032" alt="image" src="https://github.com/user-attachments/assets/897bc92a-bd7e-4e12-850b-bd9956057a70" />
- />
 
-<<img width="1920" height="1032" alt="image" src="https://github.com/user-attachments/assets/5018792e-8137-432b-a373-ade3b3baef3f" />
-/p>
+--List all books borrowed by a specific student (e.g., 'Alice Kim')
+SELECT b.title, br.borrow_date, br.return_date
+FROM borrow_records br
+JOIN books b ON br.book_id = b.id
+JOIN students s ON br.student_id = s.id
+WHERE s.name = 'Alice Kim';
 
-<!-- AUTHORS -->
+
+--View All Borrow Records with Student and Book Details
+  SELECT 
+  br.id AS borrow_id,
+  s.name AS student_name,
+  s.email,
+  b.title AS book_title,
+  b.author,
+  br.borrow_date,
+  br.return_date
+FROM borrow_records br
+JOIN students s ON br.student_id = s.id
+JOIN books b ON br.book_id = b.id
+ORDER BY br.borrow_date DESC;
+
+```
+1️⃣Show books currently borrowed by a student
+<img width="930" height="454" alt="image" src="https://github.com/user-attachments/assets/59456d64-9d93-46fe-8152-7cb8b92decfc" />
+
+
+2️⃣List all books borrowed by a specific student (e.g., 'Alice Kim')
+<img width="900" height="455" alt="image" src="https://github.com/user-attachments/assets/a6b650a8-1260-4ae6-aa0c-c796347473aa" />
+
+  View All Borrow Records with Student and Book Details
+  <img width="884" height="580" alt="image" src="https://github.com/user-attachments/assets/b255601b-9ba9-47f5-a033-fb9f9288ef4a" />
+
+
+## User Roles and Output
+
+**Student can view all available books in the library**
+```sql
+SELECT id AS book_id, title, author, genre, published_year
+FROM books
+ORDER BY title;
+
+```
+**View all borrow records with student and book details**
+```sql
+SELECT br.id AS borrow_id, s.name AS student_name, b.title AS book_title, br.borrow_date, br.return_date
+FROM borrow_records br
+JOIN students s ON br.student_id = s.id
+JOIN books b ON br.book_id = b.id
+ORDER BY br.borrow_date DESC;
+
+```
+  **Ouput upon Inserting & Viewing Student can view all available books in the library**
+
+<img width="881" height="580" alt="image" src="https://github.com/user-attachments/assets/2eb6e85a-ea00-4f02-b225-07eb38a085cd" />
+
+
+**View all borrow records with student and book details**
+
+<img width="932" height="374" alt="image" src="https://github.com/user-attachments/assets/bda3cb33-2242-4c39-b1f8-26dba183dd13" />
+
+
+
+  **User can view Borrowed Books by Entering Your ID**
+
+```sql
+SELECT 
+  br.id AS borrow_id,
+  b.title AS book_title,
+  br.borrow_date,
+  br.return_date
+FROM borrow_records br
+JOIN books b ON br.book_id = b.id
+WHERE br.student_id = 3  -- Replace 3 with the student's actual ID
+ORDER BY br.borrow_date DESC;
+
+```
+**User can view Borrowed Books by Entering Your ID**
+
+<img width="959" height="607" alt="image" src="https://github.com/user-attachments/assets/ea44881a-3b9a-4586-976c-e3556b399fc8" />
+
+
+
+## Admin Roles and Output
+
+**Admin can view All Students and Their Majors**
+
+```sql
+SELECT 
+  id AS student_id,
+  name,
+  email,
+  enrollment_year,
+  major
+FROM students
+ORDER BY name;
+
+```
+<img width="851" height="569" alt="image" src="https://github.com/user-attachments/assets/0e18dc1f-fc88-4b28-b57a-92f2c04746fb" />
+
+
+**Admin can Count of Books Borrowed by Each Student**
+```sql
+--SELECT s.name AS student_name, COUNT(*) AS total_borrowed
+FROM borrow_records br
+JOIN students s ON br.student_id = s.id
+GROUP BY s.name
+ORDER BY total_borrowed DESC; 
+
+```
+<img width="892" height="432" alt="image" src="https://github.com/user-attachments/assets/b2840469-f11a-4124-8685-ccf98eafcae3" />
+
+```sql
+**Admin can view All Books in the Library**
+SELECT 
+  id AS book_id,
+  title,
+  author,
+  genre,
+  published_year
+FROM books
+ORDER BY title;
+
+```
+<img width="893" height="609" alt="image" src="https://github.com/user-attachments/assets/b611453b-5ee6-4b78-956f-fd336b8c5e74" />
+
+---
+
+## 🛡 Security Notes <a name="security-notes"></a>
+
+See full explanation of RLS, policies, and admin functions in 👉 [security_notes.md](https://github.com/Penninah116/Data-Fundamentals/blob/data_test_branch/security_notes.md)
+
+
+---
 
 ## 👥 Authors <a name="authors"></a>
 
-👤 **Penninah Wambui**
+- **Penninah Wambui**  
+  GitHub: [@Penninah116](https://github.com/Penninah116)  
+  LinkedIn: [Penninah Wanjiru](https://www.linkedin.com/in/Penninah-wanjiru-680b05342/)  
 
-- GitHub: [@Penninah116](https://github.com/penninah116)
-- Twitter: [@foiwanjiru_](https://twitter.com/foiwanjiru)
-- LinkedIn: [@PenninahWanjiru](https://linkedin.com/in/penninahwanjiru)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- FUTURE FEATURES -->
+---
 
 ## 🔭 Future Features <a name="future-features"></a>
 
-- [ ] **Add security**
-- [ ] **Link DB to R for visualisation purposes and further analyses**
+- Integrate with front-end event booking portal
+- Add analytics for most attended events and top-paying customers
+- Implement audit logging for admin actions (create, update, delete events)
+- Enable ticket QR code generation for entry validation
+-Add email/SMS notifications for successful payments
+-Include refund and cancellation management
+-Implement role-based access (Admin, Customer)
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- CONTRIBUTING -->
+Add dashboard for revenue and sales insights
+---
 
 ## 🤝 Contributing <a name="contributing"></a>
 
-Contributions, issues, and feature requests are welcome!
+Open issues or pull requests are welcome.
 
-Feel free to check the [issues page](../../issues/).
+---
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+## ⭐️ Show your support <a name="support"></a>
 
-<!-- SUPPORT -->
+Give a ⭐️ if you like this project!
+
+---
+
+## 🙏 Acknowledgements <a name="acknowledgements"></a>
+
+- Supabase docs for SQL & RLS policies  
+- PostgreSQL official docs  
+
+---
+
+## ❓ FAQ <a name="faq"></a>
+
+**Q: How do I test RLS policies?**  
+A: Sign in as User vs Admin and try CRUD operations. Policies will restrict or allow access accordingly.  
+
+**Q: Can I extend this to a front-end?**  
+A: Yes, connect Supabase Auth with **Angular**, **Java**, or any front-end framework.  
+
+---
+
+## 📝 License <a name="license"></a>
+
+This project is licensed under the MIT License - see the LICENSE file for details.
