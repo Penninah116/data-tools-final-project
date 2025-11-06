@@ -1,371 +1,441 @@
-# 🎟 Library Management Database – Admin & User Roles in Supabase
+
+# Data-Analysis
 
 <div align="center">
-  <img width="314" height="285" alt="Supabase Logo" src="https://github.com/user-attachments/assets/20661293-a214-4004-9042-657102fb0710" />
+  <img width="200" height="200" alt="Library Management Logo" src="https://github.com/user-attachments/assets/20661293-a214-4004-9042-657102fb0710" />
   <br/>
-  <h3><b>Data Fundamentals Project</b></h3>
+  <h2><b>Library Management Project </b></h2>
 </div>
 
----
+# 📗 Table of Contents
 
-## 📗 Table of Contents
-
-* [📖 About the Project](#about-project)  
-* [🛠 Built With](#built-with)  
-* [🚀 Live Demo](#live-demo)  
-* [💻 Getting Started](#getting-started)  
-* [💾 Sample SQL Queries & Policies](#sample-sql-queries)   
-* [🛡 Security Notes](#security-notes)  
-* [👥 Authors](#authors)  
-* [🔭 Future Features](#future-features)  
-* [🤝 Contributing](#contributing)  
-* [⭐️ Show your support](#support)  
-* [🙏 Acknowledgements](#acknowledgements)  
-* [❓ FAQ](#faq)  
-* [📝 License](#license)  
+* [📖 About the Project](#about-project)
+  * [🛠 Built With](#built-with)
+  * [Key Features](#key-features)
+  * [🚀 Live Demo](#live-demo)
+* [💻 Getting Started](#getting-started)
+  * [Prerequisites](#prerequisites)
+  * [Setup](#setup)
+  * [Usage](#usage)
+  * [Connecting from Posit to Supabase](#posit-supabase-connection)
+* [💾 Schema SQL](#schema-sql)
+* [📊 R Data Analysis](#r-data-analysis)
+* [📖 Data Dictionary](#data-dictionary)
+* [👥 Authors](#authors)
+* [🔭 Future Features](#future-features)
+* [🤝 Contributing](#contributing)
+* [⭐️ Show your support](#support)
+* [🙏 Acknowledgements](#acknowledgements)
+* [❓ FAQ](#faq)
+* [📝 License](#license)
 
 ---
 
 # 📖 About the Project <a name="about-project"></a>
 
-This project demonstrates an **Library Management Database** implemented using Supabase (PostgreSQL).
-It integrates Row Level Security (RLS), Admin & User roles, and custom SQL policies to control data access and enforce least privilege principles.
-
-The System includes:  
-- ✅ Tables for students, books, and borrow_records
-- ✅ UUID-based authentication via Supabase Auth
-- ✅ Role-based access policies (Admin vs Student)
-- ✅ Row Level Security (RLS) on all tables
-- ✅ SQL functions for admin-only operations
-
----
+> This project is a lightweight Library Management System built in R, integrated with Supabase as the backend database. It allows users to manage book records, track student information,Monitor borrowing and returning of books
+The system uses Supabase's RESTful API to fetch and update data in real-time, and R's data manipulation tools to analyze and display borrowing activity.
 
 ## 🛠 Built With <a name="built-with"></a>
 
-- **Supabase** – PostgreSQL + Auth + Policy Management  
-- **PostgreSQL** – Structured database engine and tables  
-- **RLS Policies** - Fine-grained access control
-- **SQL Functions** – Role-based admin actions
+### Tech Stack
 
----
+<details>
+  <summary>Database & Hosting</summary>
+  <ul>
+    <li><a href="https://supabase.com">Supabase (PostgreSQL)</a> – backend database for tables, data storage, and queries</li>
+  </ul>
+</details>
+
+<details>
+  <summary>SQL Queries</summary>
+  <ul>
+    <li>Database schema creation, data insertion, and example queries</li>
+  </ul>
+</details>
+
+<details>
+  <summary>R Data Analysis</summary>
+  <ul>
+    <li><a href="https://posit.co/">Posit / RStudio</a> for connecting to Supabase and performing exploratory data analysis (EDA)</li>
+    <li>Libraries: DBI, dplyr, ggplot2 for querying and visualization</li>
+  </ul>
+</details>
+
+### Key Features <a name="key-features"></a>
+
+* Maintain student profiles with names, emails, and enrollment years
+* Record when a student borrows a book
+* Fetch live data from Supabase using REST API
+* Ensures data privacy and integrity
+
+<p align="right"><a href="#about-project">back to top</a></p>
 
 ## 🚀 Live Demo <a name="live-demo"></a>
 
-- [Supabase Dashboard](https://supabase.com/dashboard/project/pwsbzyjjqwxtqzzpaghy)  
+> Backend-only project. Interact via Supabase SQL editor.
+
+* [Supabase Project Link](https://supabase.com/dashboard/project/octmhkzbzxsoaegmuaei/sql/3cf2fb04-a61c-4254-87aa-e725d2b6f0f9)
+
+<p align="right"><a href="#about-project">back to top</a></p>
 
 ---
 
-## 💻 Getting Started <a name="getting-started"></a>
+# 💻 Getting Started <a name="getting-started"></a>
 
 ### Prerequisites
-- Supabase account
-- Basic SQL and PostgreSQL knowledge
--Git installed
-- GitHub account for project submission  
+
+* Supabase account
+* Posit / RStudio
+* R packages: DBI, dplyr, ggplot2
 
 ### Setup
 
-```bash
-git clone https://github.com/Penninah116/library-management-db
-cd library-management-db
-
-```
+Clone the repository:
 
 ```bash
-Usage
-
-Open Supabase SQL editor
-
-Run schema.sql to create tables & sample data
-
-Apply UUID + RLS setup:
-Enable Row Level Security
--- Enable RLS
-ALTER TABLE students ENABLE ROW LEVEL SECURITY;
-ALTER TABLE books ENABLE ROW LEVEL SECURITY;
-ALTER TABLE borrow_records ENABLE ROW LEVEL SECURITY;
-
-
-
-Apply user vs admin policies.
+git clone https://github.com/Penninah116/Library-Management-data-analysis.git
+cd Library-Management-data-analysis
 ```
 
----
+### Usage
 
-## 💾 Sample SQL Queries & Policies <a name="sample-sql-queries"></a>
+1. Open Supabase and create a new project.
+2. Access the SQL editor and execute `schema.sql` to create tables and insert sample data:
 
-### 1️⃣ User Policies
 ```sql
--- Students can view only their own borrow records
-CREATE POLICY "Students can view their own borrow records"
-ON borrow_records
-FOR SELECT
-USING (
-  student_id = current_setting('request.student_id')::INT
-);
-```sql
- -- Students can insert their own borrow records
-CREATE POLICY "Students can insert their own borrow records"
-ON borrow_records
-FOR INSERT
-WITH CHECK (
-  student_id = current_setting('request.student_id')::INT
-);
-
+\i schema.sql
 ```
 
-```sql
---Restrict Students to Only View Books They've Borrowed
-CREATE POLICY "Students can view borrowed books only"
-ON books
-FOR SELECT
-USING (
-  EXISTS (
-    SELECT 1
-    FROM borrow_records
-    WHERE borrow_records.book_id = books.id
-    AND borrow_records.student_id = current_setting('request.student_id')::INT
+3. A quick taste of how R posit code would look like:
+
+```r
+# Load connection
+library(DBI)
+connect_db <- function() {
+  dbConnect(
+    RPostgres::Postgres(),
+    dbname = "postgres",
+    host = "aws-1-eu-north-1.pooler.supabase.com",
+    port = 5432,
+    user = "postgres.pwsbzyjjqwxtqzzpaghy",
+    password = "usA-wt4/$Gg4x#m",
+    sslmode = "require"
   )
-);
+}
+
+source("Data-Analysis.R")
+con <- connect_db()
+dbListTables(con)
+
+# Run your query
+# 1.Get Most Borrowed Books (Basic Count)
+
+library(dplyr)
+borrow_records <- fetch_table("borrow_records")
+most_borrowed <- borrow_records %>%
+  count(book_id, sort = TRUE)
+print(most_borrowed)
+
+
+# 2.  Get Books Borrowed by a Specific Student
+
+student_id <- 2  # Replace with actual student ID
+student_borrows <- fetch_table(paste0("borrow_records?student_id=eq.", student_id))
+print(student_borrows)
+
+#outome : 
+# source("/cloud/project/alice_favorite.R")
+#username              title artist_name
+#1    alice Programmers choice   Sauti Sol
 
 ```
+# Outcome upon running the code
+
+<img width="1895" height="829" alt="image" src="https://github.com/user-attachments/assets/9f6ff072-74d4-4295-b415-14b43196043b" />
 ---
 
-### 2️⃣ Admin Policies
-```sql
---  Admins can manage all borrow records
+### Connecting from Posit to Supabase <a name="posit-supabase-connection"></a>
 
-CREATE POLICY "Admins have full access to borrow records"
-ON borrow_records
-FOR ALL
-USING (
-  EXISTS (
-    SELECT 1 FROM students WHERE students.id = borrow_records.student_id AND students.major = 'Admin'
+1. Install required R packages:
+
+```r
+install.packages(c("DBI", "RPostgres", "dplyr", "ggplot2"))
+```
+
+2. Create a `Data-Analysis.R` file:
+
+```r
+library(DBI)
+connect_db <- function() {
+  dbConnect(
+    RPostgres::Postgres(),
+    dbname = "postgres",
+    host = "aws-1-eu-north-1.pooler.supabase.com",
+    port = 5432,
+    user = "postgres.pwsbzyjjqwxtqzzpaghy",
+    password = "usA-wt4/$Gg4x#m",
+    sslmode = "require"
   )
+}
+```
+
+3. Use this connection in R scripts:
+
+```r
+source("Data-Analysis.R")
+con <- connect_db()
+dbListTables(con)
+```
+
+---
+# Outcome after establishing connection
+<img width="1891" height="868" alt="image" src="https://github.com/user-attachments/assets/22fa2585-d9ba-4aa8-bf4a-de0b87d93e81" />
+---
+
+
+
+# 💾 Must Have Schema SQL <a name="schema-sql"></a>
+
+
+<details>
+  <summary>Click to expand the full schema.sql that you must run in supabase before you create a conection to posit studi</summary>
+
+```sql
+-- Users table
+CREATE TABLE Customers (
+  user_id SERIAL PRIMARY KEY,
+  full_name VARCHAR(100),
+  email VARCHAR(100) UNIQUE NOT NULL,
+  signup_date DATE DEFAULT CURRENT_DATE
 );
 
-```sql
--- Admins can manage all books
-CREATE POLICY "Admins have full access to books"
-ON books
-FOR ALL
-USING (
-  EXISTS (
-    SELECT 1 FROM students WHERE auth_user_id = auth.uid() AND major = 'Admin'
-  )
+-- Events table
+CREATE TABLE events (
+  event_id SERIAL PRIMARY KEY,
+  event_name VARCHAR(100),
+  event_date DATE,
+  venue VARCHAR(100),
+  organizer VARCHAR(100)
 );
 
-```
-
-```sql
---Admins can manage all student records
-CREATE POLICY "Admins can manage all students"
-ON students
-FOR ALL
-USING (
-  EXISTS (
-    SELECT 1 FROM users WHERE users.user_uuid = auth.uid() AND users.role = 'admin'
-  )
+-- Tickets table
+CREATE TABLE tickets (
+  ticket_id SERIAL PRIMARY KEY,
+  event_id INT REFERENCES events(event_id),
+  user_id INT REFERENCES users(user_id),
+  price DECIMAL(10,2),
+  purchase_date DATE DEFAULT CURRENT_DATE
 );
 
+-- Insert users
+INSERT INTO Customers (full_name, email) VALUES
+('Alice Wanjiku', 'alice@gmail.com'),
+('Brian Otieno', 'brian@gmail.com'),
+('Carol Mwende', 'carol@gmail.com'),
+('David Kamau', 'david@gmail.com'),
+('Evelyne Njeri', 'evelyne@gmail.com');
+
+-- Insert events
+INSERT INTO events (event_name, event_date, venue, organizer) VALUES
+('Tech Summit 2025', '2025-11-20', 'KICC', 'Micropoint Systems'),
+('Music Fiesta', '2025-12-05', 'Uhuru Gardens', 'Sauti Nation'),
+('Startup Pitch Night', '2025-12-10', 'Sarova Hotel', 'Pinnoserv'),
+('AI Innovation Expo', '2025-12-15', 'Radisson Blu', 'TechHub Africa'),
+('Cultural Gala', '2025-12-22', 'Bomas of Kenya', 'Heritage Org');
+
+-- Insert tickets
+INSERT INTO tickets (event_id, user_id, price) VALUES
+(1, 1, 2000), (1, 2, 2000),
+(2, 3, 1500), (2, 4, 1500),
+(3, 1, 1800), (3, 5, 1800),
+(4, 2, 2500), (4, 5, 2500),
+(5, 3, 1000), (5, 4, 1000);
+
+-- Example query: list tickets per user
+SELECT u.full_name, e.event_name, t.price
+FROM tickets t
+JOIN users u ON t.user_id = u.user_id
+JOIN events e ON t.event_id = e.event_id;
+-- Example query
+SELECT * FROM user_favorites;
 ```
-
----
- ### 3️⃣ Example CRUD Queries with their output.
- ```sql
---List all books currently borrowed (not yet returned)
-SELECT b.title, s.name AS borrower, br.borrow_date
-FROM borrow_records br
-JOIN books b ON br.book_id = b.id
-JOIN students s ON br.student_id = s.id
-WHERE br.return_date IS NULL;
-
-
---List all books borrowed by a specific student (e.g., 'Alice Kim')
-SELECT b.title, br.borrow_date, br.return_date
-FROM borrow_records br
-JOIN books b ON br.book_id = b.id
-JOIN students s ON br.student_id = s.id
-WHERE s.name = 'Alice Kim';
-
-
---View All Borrow Records with Student and Book Details
-  SELECT 
-  br.id AS borrow_id,
-  s.name AS student_name,
-  s.email,
-  b.title AS book_title,
-  b.author,
-  br.borrow_date,
-  br.return_date
-FROM borrow_records br
-JOIN students s ON br.student_id = s.id
-JOIN books b ON br.book_id = b.id
-ORDER BY br.borrow_date DESC;
-
-```
-1️⃣Show books currently borrowed by a student
-<img width="930" height="454" alt="image" src="https://github.com/user-attachments/assets/59456d64-9d93-46fe-8152-7cb8b92decfc" />
-
-
-2️⃣List all books borrowed by a specific student (e.g., 'Alice Kim')
-<img width="900" height="455" alt="image" src="https://github.com/user-attachments/assets/a6b650a8-1260-4ae6-aa0c-c796347473aa" />
-
-  View All Borrow Records with Student and Book Details
-  <img width="884" height="580" alt="image" src="https://github.com/user-attachments/assets/b255601b-9ba9-47f5-a033-fb9f9288ef4a" />
-
-
-## User Roles and Output
-
-**Student can view all available books in the library**
-```sql
-SELECT id AS book_id, title, author, genre, published_year
-FROM books
-ORDER BY title;
-
-```
-**View all borrow records with student and book details**
-```sql
-SELECT br.id AS borrow_id, s.name AS student_name, b.title AS book_title, br.borrow_date, br.return_date
-FROM borrow_records br
-JOIN students s ON br.student_id = s.id
-JOIN books b ON br.book_id = b.id
-ORDER BY br.borrow_date DESC;
-
-```
-  **Ouput upon Inserting & Viewing Student can view all available books in the library**
-
-<img width="881" height="580" alt="image" src="https://github.com/user-attachments/assets/2eb6e85a-ea00-4f02-b225-07eb38a085cd" />
-
-
-**View all borrow records with student and book details**
-
-<img width="932" height="374" alt="image" src="https://github.com/user-attachments/assets/bda3cb33-2242-4c39-b1f8-26dba183dd13" />
-
-
-
-  **User can view Borrowed Books by Entering Your ID**
 
 ```sql
-SELECT 
-  br.id AS borrow_id,
-  b.title AS book_title,
-  br.borrow_date,
-  br.return_date
-FROM borrow_records br
-JOIN books b ON br.book_id = b.id
-WHERE br.student_id = 3  -- Replace 3 with the student's actual ID
-ORDER BY br.borrow_date DESC;
+-- Example query: list tickets per user
+SELECT u.full_name, e.event_name, t.price
+FROM tickets t
+JOIN users u ON t.user_id = u.user_id
+JOIN events e ON t.event_id = e.event_id;
+```
+
+</details>
+
+<p align="right"><a href="#about-project">back to top</a></p>
+
+---
+
+# 📊 R Data Analysis <a name="r-data-analysis"></a>
+
+<details>
+<summary>Click to expand full R analysis code</summary>
+
+```r
+source("connect_db.R")
+library(DBI)
+library(dplyr)
+library(ggplot2)
+
+con <- connect_db()
+
+# 1. Event popularity (number of tickets sold)
+event_sales <- dbGetQuery(con, "
+  SELECT e.event_name, COUNT(t.ticket_id) AS tickets_sold
+  FROM events e
+  LEFT JOIN tickets t ON e.event_id = t.event_id
+  GROUP BY e.event_name
+  ORDER BY tickets_sold DESC;
+")
+ggplot(event_sales, aes(x = reorder(event_name, tickets_sold), y = tickets_sold, fill = event_name)) +
+  geom_col(show.legend = FALSE) + coord_flip() +
+  labs(title = 'Most Popular Events', x = 'Event', y = 'Tickets Sold') +
+  theme_minimal()
+
+# 2. Revenue per event
+revenue_event <- dbGetQuery(con, "
+  SELECT e.event_name, SUM(t.quantity) AS total_revenue
+  FROM tickets t
+  JOIN events e ON t.event_id = e.event_id
+  GROUP BY e.event_name;
+")
+ggplot(revenue_event, aes(x = reorder(event_name, total_revenue), y = total_revenue, fill = event_name)) +
+  geom_col(show.legend = FALSE) + coord_flip() +
+  labs(title = 'Revenue by Event', x = 'Event', y = 'Total Revenue (KSh)') +
+  theme_minimal()
+
+# 3. Daily Ticket Sales Trend
+ticket_trend <- dbGetQuery(con, "
+  SELECT DATE(t.purchase_date) AS purchase_date, SUM(t.quantity) AS tickets_sold
+  FROM tickets t
+  GROUP BY DATE(t.purchase_date)
+  ORDER BY purchase_date;
+")
+ggplot(ticket_trend, aes(x = purchase_date, y = tickets_sold)) +
+  geom_line(color = '#0073C2FF', size = 1.2) +
+  geom_point(color = '#E69F00', size = 2) +
+  labs(title = 'Daily Ticket Sales Trend', x = 'Date',y = 'Tickets Sold') +
+  theme_minimal()
+# 4.Customer Distribution by City
+geo_dist <- dbGetQuery(con, "
+  SELECT c.city, COUNT(DISTINCT c.customer_id) AS total_customers FROM customers c JOIN tickets t ON c.customer_id = t.customer_id  GROUP BY c.city
+  ORDER BY total_customers DESC;
+")
+ggplot(geo_dist, aes(x = reorder(city, total_customers), y = total_customers, fill = city)) +
+  geom_col(show.legend = FALSE) +
+  coord_flip() +
+  labs(
+    title = 'Customer Distribution by City',
+    x = 'City',
+    y = 'Number of Customers'
+  ) +
+  theme_minimal()
 
 ```
-**User can view Borrowed Books by Entering Your ID**
+</details>
 
-<img width="959" height="607" alt="image" src="https://github.com/user-attachments/assets/ea44881a-3b9a-4586-976c-e3556b399fc8" />
+### Most Popular Events
+<img width="1888" height="857" alt="image" src="https://github.com/user-attachments/assets/25e48f5e-a363-4ed9-bff0-ea2394d7ba02" />
+
+### Revenue Per Event
+
+<img width="1895" height="879" alt="image" src="https://github.com/user-attachments/assets/584a1570-a7be-4c14-8909-5e0c093feb78" />
 
 
+### Daily Ticket Sales Trend
+<img width="1917" height="906" alt="image" src="https://github.com/user-attachments/assets/68d5e0a2-6148-497c-b7f8-7b9090209f65" />
 
-## Admin Roles and Output
+### Customer Distribution By City
+<img width="1920" height="889" alt="image" src="https://github.com/user-attachments/assets/c59a30e2-cdb9-4d20-9f69-0c32cad451a2" />
 
-**Admin can view All Students and Their Majors**
 
-```sql
-SELECT 
-  id AS student_id,
-  name,
-  email,
-  enrollment_year,
-  major
-FROM students
-ORDER BY name;
+<p align="right"><a href="#about-project">back to top</a></p>
 
+---
+
+# 📖 Data Dictionary <a name="data-dictionary"></a>
+
+**📖 Full Data Dictionary:** [Check it here](https://github.com/DENNIS-MURITHI/Data-Tools/blob/test_branch/data_dictionary.md)
+
+<p align="right"><a href="#about-project">back to top</a></p>
+
+---
+
+# 👥 Authors <a name="authors"></a>
+
+👤 **Evans Kibet**
+
+* GitHub: [@EvansKibet](https://github.com/evans-dotcom)
+* LinkedIn: [LinkedIn](https://www.linkedin.com/in/evans-langat-680b05342/)
+
+<p align="right"><a href="#about-project">back to top</a></p>
+
+---
+
+# 🔭 Future Features <a name="future-features"></a>
+
+* Front-end integration with Event Ticketing Project  
+* Advanced analytics (top songs, popular artists, trends)  
+* Playlists, ratings, and user-generated content
+* 
+<p align="right"><a href="#about-project">back to top</a></p>
+
+---
+
+# 🤝 Contributing <a name="contributing"></a>
+
+Contributions, issues, and feature requests are welcome. Open an issue or submit a pull request.
+
+<p align="right"><a href="#about-project">back to top</a></p>
+
+---
+
+# ⭐️ Show your support <a name="support"></a>
+
+If you like this project, give it a ⭐️ on GitHub!
+
+<p align="right"><a href="#about-project">back to top</a></p>
+
+---
+
+# 🙏 Acknowledgements <a name="acknowledgements"></a>
+
+* [Supabase](https://supabase.com/) for PostgreSQL hosting and testing  
+* [Posit](https://docs.posit.co/connect/) Connect Documentation   
+
+<p align="right"><a href="#about-project">back to top</a></p>
+
+---
+
+# ❓ FAQ <a name="faq"></a>
+
+**1. How do I run this project in Posit?**  
+Open the repository in **Posit (RStudio)**, install dependencies, and run the R scripts step by step.  
+Make sure your Supabase credentials are set correctly in `connect_db.R`.
+
+**2. What dependencies are needed?**  
+Install the following R packages:  
+```r
+install.packages(c("DBI", "RPostgres", "dplyr", "ggplot2"))
 ```
-<img width="851" height="569" alt="image" src="https://github.com/user-attachments/assets/0e18dc1f-fc88-4b28-b57a-92f2c04746fb" />
-
-
-**Admin can Count of Books Borrowed by Each Student**
-```sql
---SELECT s.name AS student_name, COUNT(*) AS total_borrowed
-FROM borrow_records br
-JOIN students s ON br.student_id = s.id
-GROUP BY s.name
-ORDER BY total_borrowed DESC; 
-
-```
-<img width="892" height="432" alt="image" src="https://github.com/user-attachments/assets/b2840469-f11a-4124-8685-ccf98eafcae3" />
-
-```sql
-**Admin can view All Books in the Library**
-SELECT 
-  id AS book_id,
-  title,
-  author,
-  genre,
-  published_year
-FROM books
-ORDER BY title;
-
-```
-<img width="893" height="609" alt="image" src="https://github.com/user-attachments/assets/b611453b-5ee6-4b78-956f-fd336b8c5e74" />
+### 3. Can I use MySQL or other databases?  
+❌ **No.** This project connects only to **Supabase (PostgreSQL)** for consistency and compatibility with R and Posit.
 
 ---
 
-## 🛡 Security Notes <a name="security-notes"></a>
+### 4. How do I connect Posit to Supabase?  
+Use the `DBI` and `RPostgres` packages along with your Supabase credentials found in:  
+**Supabase → Project Settings → Database → Connection Info**  
 
-See full explanation of RLS, policies, and admin functions in 👉 [security_notes.md](https://github.com/Penninah116/Data-Fundamentals/blob/data_test_branch/security_notes.md)
+# 📝 License <a name="license"></a>
 
-
----
-
-## 👥 Authors <a name="authors"></a>
-
-- **Penninah Wambui**  
-  GitHub: [@Penninah116](https://github.com/Penninah116)  
-  LinkedIn: [Penninah Wanjiru](https://www.linkedin.com/in/Penninah-wanjiru-680b05342/)  
-
----
-
-## 🔭 Future Features <a name="future-features"></a>
-
-- Integrate with front-end event booking portal
-- Add analytics for most attended events and top-paying customers
-- Implement audit logging for admin actions (create, update, delete events)
-- Enable ticket QR code generation for entry validation
--Add email/SMS notifications for successful payments
--Include refund and cancellation management
--Implement role-based access (Admin, Customer)
-
-Add dashboard for revenue and sales insights
----
-
-## 🤝 Contributing <a name="contributing"></a>
-
-Open issues or pull requests are welcome.
-
----
-
-## ⭐️ Show your support <a name="support"></a>
-
-Give a ⭐️ if you like this project!
-
----
-
-## 🙏 Acknowledgements <a name="acknowledgements"></a>
-
-- Supabase docs for SQL & RLS policies  
-- PostgreSQL official docs  
-
----
-
-## ❓ FAQ <a name="faq"></a>
-
-**Q: How do I test RLS policies?**  
-A: Sign in as User vs Admin and try CRUD operations. Policies will restrict or allow access accordingly.  
-
-**Q: Can I extend this to a front-end?**  
-A: Yes, connect Supabase Auth with **Angular**, **Java**, or any front-end framework.  
-
----
-
-## 📝 License <a name="license"></a>
-
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under MIT License - see [LICENSE](LICENSE) for details.
