@@ -2,9 +2,9 @@
 # Data-Analysis
 
 <div align="center">
-  <img width="200" height="200" alt="Event Ticketing Logo" src="https://github.com/user-attachments/assets/20661293-a214-4004-9042-657102fb0710" />
+  <img width="200" height="200" alt="Library Management Logo" src="https://github.com/user-attachments/assets/20661293-a214-4004-9042-657102fb0710" />
   <br/>
-  <h2><b>Event Ticketing Project </b></h2>
+  <h2><b>Library Management Project </b></h2>
 </div>
 
 # 📗 Table of Contents
@@ -33,7 +33,8 @@
 
 # 📖 About the Project <a name="about-project"></a>
 
-> This project models a music streaming platform's backend database. It includes users, artists, songs, and user favorites, enabling functionalities like song liking, artist categorization, and user engagement tracking. Additionally, we demonstrate R-based data analysis of user activity and artist performance.
+> This project is a lightweight Library Management System built in R, integrated with Supabase as the backend database. It allows users to manage book records, track student information,Monitor borrowing and returning of books
+The system uses Supabase's RESTful API to fetch and update data in real-time, and R's data manipulation tools to analyze and display borrowing activity.
 
 ## 🛠 Built With <a name="built-with"></a>
 
@@ -63,10 +64,10 @@
 
 ### Key Features <a name="key-features"></a>
 
-* Users can like multiple songs and track favorites.
-* Songs are linked to artists, supporting multiple songs per artist.
-* SQL queries for analyzing top songs, active users, and most popular artists.
-* R-based visualizations for song popularity, user activity, and artist performance.
+* Maintain student profiles with names, emails, and enrollment years
+* Record when a student borrows a book
+* Fetch live data from Supabase using REST API
+* Ensures data privacy and integrity
 
 <p align="right"><a href="#about-project">back to top</a></p>
 
@@ -93,8 +94,8 @@
 Clone the repository:
 
 ```bash
-git clone https://github.com/Evans-dotcom/event-ticketing-data-analysis.git
-cd event-ticketing-data-analysis
+git clone https://github.com/Penninah116/Library-Management-data-analysis.git
+cd Library-Management-data-analysis
 ```
 
 ### Usage
@@ -128,22 +129,21 @@ con <- connect_db()
 dbListTables(con)
 
 # Run your query
-# 1. Event popularity (number of tickets sold)
-event_sales <- dbGetQuery(con, "
-  SELECT e.event_name, COUNT(t.ticket_id) AS tickets_sold
-  FROM events e
-  LEFT JOIN tickets t ON e.event_id = t.event_id
-  GROUP BY e.event_name
-  ORDER BY tickets_sold DESC;
-")
-# 2. Top customers (users with most tickets)
-top_users <- dbGetQuery(con, "
-  SELECT u.full_name, COUNT(t.ticket_id) AS tickets_bought
-  FROM users u
-  JOIN tickets t ON u.user_id = t.user_id
-  GROUP BY u.full_name
-  ORDER BY tickets_bought DESC;
-")
+# 1.Get Most Borrowed Books (Basic Count)
+
+library(dplyr)
+borrow_records <- fetch_table("borrow_records")
+most_borrowed <- borrow_records %>%
+  count(book_id, sort = TRUE)
+print(most_borrowed)
+
+
+# 2.  Get Books Borrowed by a Specific Student
+
+student_id <- 2  # Replace with actual student ID
+student_borrows <- fetch_table(paste0("borrow_records?student_id=eq.", student_id))
+print(student_borrows)
+
 #outome : 
 # source("/cloud/project/alice_favorite.R")
 #username              title artist_name
