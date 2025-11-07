@@ -226,15 +226,46 @@ ggplot(most_borrowed, aes(x = reorder(title, times_borrowed), y = times_borrowed
   coord_flip() +
   labs(title = 'Most Borrowed Books', x = 'Book Title', y = 'Times Borrowed') +
   theme_minimal()
+
+
+# 2. Major students
+#major students
+student_major <- dbGetQuery(con, "
+  SELECT major, COUNT(*) AS total_students
+  FROM students
+  GROUP BY major
+  ORDER BY total_students DESC;
+")
+print(student_major)
+library(dplyr)
+library(ggplot2)
+
+plot5 <- ggplot(student_major, aes(x = reorder(major, total_students), y = total_students, fill = major)) +
+  geom_col(show.legend = FALSE) +
+  coord_flip() +
+  labs(
+    title = 'Students per Major',
+    x = 'Major',
+    y = 'Total Students'
+  ) +
+  theme_minimal()
+
+plot5
 ```
 </details>
 
 ---
 
-## 📊 Dashboard Preview
+## 📊 output for visuals
+** Output for the connections **
+<img width="1366" height="684" alt="image" src="https://github.com/user-attachments/assets/c8a1437d-32c3-4201-a393-0eb783f56083" />
 
-📊 *(Power BI or ggplot visualization can be embedded here)*  
-🖼️ *Placeholder for Library Analytics Dashboard Screenshot*
+** Most borrowed books **
+<img width="1366" height="646" alt="image" src="https://github.com/user-attachments/assets/a9b21cf7-bf39-4bdf-8968-6a7e8c5f6f4f" />
+
+** Students per major **
+
+<img width="1366" height="634" alt="image" src="https://github.com/user-attachments/assets/29eaca48-a494-4836-9dc7-a09e0590d87c" />
 
 ---
 
