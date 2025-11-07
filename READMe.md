@@ -1,40 +1,41 @@
-
 # Data-Analysis
 
 <div align="center">
   <img width="200" height="200" alt="Library Management Logo" src="https://github.com/user-attachments/assets/20661293-a214-4004-9042-657102fb0710" />
   <br/>
-  <h2><b>Library Management Project </b></h2>
+  <h2><b>Library Management Data Analysis Project</b></h2>
 </div>
 
-# 📗 Table of Contents
-
-* [📖 About the Project](#about-project)
-  * [🛠 Built With](#built-with)
-  * [Key Features](#key-features)
-  * [🚀 Live Demo](#live-demo)
-* [💻 Getting Started](#getting-started)
-  * [Prerequisites](#prerequisites)
-  * [Setup](#setup)
-  * [Usage](#usage)
-  * [Connecting from Posit to Supabase](#posit-supabase-connection)
-* [💾 Schema SQL](#schema-sql)
-* [📊 R Data Analysis](#r-data-analysis)
-* [📖 Data Dictionary](#data-dictionary)
-* [👥 Authors](#authors)
-* [🔭 Future Features](#future-features)
-* [🤝 Contributing](#contributing)
-* [⭐️ Show your support](#support)
-* [🙏 Acknowledgements](#acknowledgements)
-* [❓ FAQ](#faq)
-* [📝 License](#license)
+## 📗 Table of Contents
+- 📖 About the Project
+- 🛠 Built With
+- Key Features
+- 🚀 Live Demo
+- 💻 Getting Started
+- Prerequisites
+- Setup
+- Usage
+- Connecting from Posit to Supabase
+- 💾 Schema SQL
+- 📊 R Data Analysis
+- 📖 Data Dictionary
+- 👥 Authors
+- 🔭 Future Features
+- 🤝 Contributing
+- ⭐️ Show your support
+- 🙏 Acknowledgements
+- ❓ FAQ
+- 📝 License
 
 ---
 
-# 📖 About the Project <a name="about-project"></a>
+## 📖 About the Project <a name="about-project"></a>
 
-> This project is a lightweight Library Management System built in R, integrated with Supabase as the backend database. It allows users to manage book records, track student information,Monitor borrowing and returning of books
-The system uses Supabase's RESTful API to fetch and update data in real-time, and R's data manipulation tools to analyze and display borrowing activity.
+This project is a **Library Management Data Analysis System** built in **R (Posit)**, with **Supabase** as the backend database.  
+It allows tracking of students, books, and borrowing activity to identify reading trends, book demand, and student engagement.  
+The data is analyzed in R using **dplyr** and **ggplot2** for insight visualization.
+
+---
 
 ## 🛠 Built With <a name="built-with"></a>
 
@@ -43,74 +44,73 @@ The system uses Supabase's RESTful API to fetch and update data in real-time, an
 <details>
   <summary>Database & Hosting</summary>
   <ul>
-    <li><a href="https://supabase.com">Supabase (PostgreSQL)</a> – backend database for tables, data storage, and queries</li>
+    <li><a href="https://supabase.com">Supabase (PostgreSQL)</a> – backend for table storage and querying</li>
   </ul>
 </details>
 
 <details>
   <summary>SQL Queries</summary>
   <ul>
-    <li>Database schema creation, data insertion, and example queries</li>
+    <li>Database schema creation and sample records insertion</li>
+    <li>Joins between students, books, and borrow_records for analysis</li>
   </ul>
 </details>
 
 <details>
   <summary>R Data Analysis</summary>
   <ul>
-    <li><a href="https://posit.co/">Posit / RStudio</a> for connecting to Supabase and performing exploratory data analysis (EDA)</li>
-    <li>Libraries: DBI, dplyr, ggplot2 for querying and visualization</li>
+    <li><a href="https://posit.co/">Posit / RStudio</a> for connecting to Supabase and analyzing data</li>
+    <li>Libraries: DBI, RPostgres, dplyr, ggplot2</li>
   </ul>
 </details>
 
-### Key Features <a name="key-features"></a>
+---
 
-* Maintain student profiles with names, emails, and enrollment years
-* Record when a student borrows a book
-* Fetch live data from Supabase using REST API
-* Ensures data privacy and integrity
+## Key Features <a name="key-features"></a>
 
-<p align="right"><a href="#about-project">back to top</a></p>
-
-## 🚀 Live Demo <a name="live-demo"></a>
-
-> Backend-only project. Interact via Supabase SQL editor.
-
-* [Supabase Project Link](https://supabase.com/dashboard/project/octmhkzbzxsoaegmuaei/sql/3cf2fb04-a61c-4254-87aa-e725d2b6f0f9)
+✅ Manage students, books, and borrowing data  
+✅ Analyze borrowing patterns over time  
+✅ Identify most borrowed books and active students  
+✅ Visualize trends in borrowing and book returns  
+✅ Secure data connection via Supabase  
 
 <p align="right"><a href="#about-project">back to top</a></p>
 
 ---
 
-# 💻 Getting Started <a name="getting-started"></a>
+## 🚀 Live Demo <a name="live-demo"></a>
+
+Backend-only project. Interact through **Supabase SQL editor** or **RStudio (Posit)**.
+
+Supabase Project Link
+
+<p align="right"><a href="#about-project">back to top</a></p>
+
+---
+
+## 💻 Getting Started <a name="getting-started"></a>
 
 ### Prerequisites
 
-* Supabase account
-* Posit / RStudio
-* R packages: DBI, dplyr, ggplot2
+- Supabase account  
+- Posit / RStudio  
+- R packages: DBI, RPostgres, dplyr, ggplot2  
 
 ### Setup
 
-Clone the repository:
-
 ```bash
-git clone https://github.com/Penninah116/Library-Management-data-analysis.git
-cd Library-Management-data-analysis
+git clone https://github.com/DENNIS-MURITHI/Library-Data-Analysis.git
+cd Library-Data-Analysis
 ```
 
 ### Usage
 
-1. Open Supabase and create a new project.
-2. Access the SQL editor and execute `schema.sql` to create tables and insert sample data:
+Run SQL scripts in Supabase → SQL Editor → Create tables and insert sample data.  
+Then use RStudio to connect and analyze data.
 
-```sql
-\i schema.sql
-```
-
-3. A quick taste of how R posit code would look like:
+#### Example Connection Script
 
 ```r
-# Load connection
 library(DBI)
 connect_db <- function() {
   dbConnect(
@@ -123,159 +123,84 @@ connect_db <- function() {
     sslmode = "require"
   )
 }
-
-source("Data-Analysis.R")
-con <- connect_db()
-dbListTables(con)
-
-# Run your query
-# 1.Get Most Borrowed Books (Basic Count)
-
-library(dplyr)
-borrow_records <- fetch_table("borrow_records")
-most_borrowed <- borrow_records %>%
-  count(book_id, sort = TRUE)
-print(most_borrowed)
-
-
-# 2.  Get Books Borrowed by a Specific Student
-
-student_id <- 2  # Replace with actual student ID
-student_borrows <- fetch_table(paste0("borrow_records?student_id=eq.", student_id))
-print(student_borrows)
-
-#outome : 
-# source("/cloud/project/alice_favorite.R")
-#username              title artist_name
-#1    alice Programmers choice   Sauti Sol
-
 ```
-# Outcome upon running the code
 
-<img width="1895" height="829" alt="image" src="https://github.com/user-attachments/assets/9f6ff072-74d4-4295-b415-14b43196043b" />
----
-
-### Connecting from Posit to Supabase <a name="posit-supabase-connection"></a>
-
-1. Install required R packages:
+#### Connecting from Posit to Supabase
 
 ```r
 install.packages(c("DBI", "RPostgres", "dplyr", "ggplot2"))
-```
-
-2. Create a `Data-Analysis.R` file:
-
-```r
-library(DBI)
-connect_db <- function() {
-  dbConnect(
-    RPostgres::Postgres(),
-    dbname = "postgres",
-    host = "aws-1-eu-north-1.pooler.supabase.com",
-    port = 5432,
-    user = "postgres.pwsbzyjjqwxtqzzpaghy",
-    password = "usA-wt4/$Gg4x#m",
-    sslmode = "require"
-  )
-}
-```
-
-3. Use this connection in R scripts:
-
-```r
-source("Data-Analysis.R")
+source("connect_db.R")
 con <- connect_db()
 dbListTables(con)
 ```
 
 ---
-# Outcome after establishing connection
-<img width="1891" height="868" alt="image" src="https://github.com/user-attachments/assets/22fa2585-d9ba-4aa8-bf4a-de0b87d93e81" />
----
 
-
-
-# 💾 Must Have Schema SQL <a name="schema-sql"></a>
-
+## 💾 Schema SQL <a name="schema-sql"></a>
 
 <details>
-  <summary>Click to expand the full schema.sql that you must run in supabase before you create a conection to posit studi</summary>
+<summary>Click to expand full schema.sql</summary>
 
 ```sql
--- Users table
-CREATE TABLE Customers (
-  user_id SERIAL PRIMARY KEY,
-  full_name VARCHAR(100),
-  email VARCHAR(100) UNIQUE NOT NULL,
-  signup_date DATE DEFAULT CURRENT_DATE
+-- Drop tables if they exist
+DROP TABLE IF EXISTS borrow_records;
+DROP TABLE IF EXISTS students;
+DROP TABLE IF EXISTS books;
+
+-- Create tables
+CREATE TABLE students (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100),
+    email VARCHAR(100) UNIQUE,
+    enrollment_year INT,
+    major VARCHAR(50)
 );
 
--- Events table
-CREATE TABLE events (
-  event_id SERIAL PRIMARY KEY,
-  event_name VARCHAR(100),
-  event_date DATE,
-  venue VARCHAR(100),
-  organizer VARCHAR(100)
+CREATE TABLE books (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(150),
+    author VARCHAR(100),
+    genre VARCHAR(50),
+    published_year INT
 );
 
--- Tickets table
-CREATE TABLE tickets (
-  ticket_id SERIAL PRIMARY KEY,
-  event_id INT REFERENCES events(event_id),
-  user_id INT REFERENCES users(user_id),
-  price DECIMAL(10,2),
-  purchase_date DATE DEFAULT CURRENT_DATE
+CREATE TABLE borrow_records (
+    id SERIAL PRIMARY KEY,
+    student_id INT REFERENCES students(id),
+    book_id INT REFERENCES books(id),
+    borrow_date DATE,
+    return_date DATE
 );
 
--- Insert users
-INSERT INTO Customers (full_name, email) VALUES
-('Alice Wanjiku', 'alice@gmail.com'),
-('Brian Otieno', 'brian@gmail.com'),
-('Carol Mwende', 'carol@gmail.com'),
-('David Kamau', 'david@gmail.com'),
-('Evelyne Njeri', 'evelyne@gmail.com');
+-- Insert sample students
+INSERT INTO students (name, email, enrollment_year, major) VALUES
+('Jane Doe', 'jane.doe@example.com', 2022, 'Literature'),
+('John Smith', 'john.smith@example.com', 2021, 'History'),
+('Alice Kim', 'alice.kim@example.com', 2023, 'Computer Science'),
+('Mohamed Ali', 'mohamed.ali@example.com', 2020, 'Philosophy'),
+('Grace Njeri', 'grace.njeri@example.com', 2022, 'Library Science');
 
--- Insert events
-INSERT INTO events (event_name, event_date, venue, organizer) VALUES
-('Tech Summit 2025', '2025-11-20', 'KICC', 'Micropoint Systems'),
-('Music Fiesta', '2025-12-05', 'Uhuru Gardens', 'Sauti Nation'),
-('Startup Pitch Night', '2025-12-10', 'Sarova Hotel', 'Pinnoserv'),
-('AI Innovation Expo', '2025-12-15', 'Radisson Blu', 'TechHub Africa'),
-('Cultural Gala', '2025-12-22', 'Bomas of Kenya', 'Heritage Org');
+-- Insert sample books
+INSERT INTO books (title, author, genre, published_year) VALUES
+('1984', 'George Orwell', 'Dystopian', 1949),
+('To Kill a Mockingbird', 'Harper Lee', 'Classic', 1960),
+('The Great Gatsby', 'F. Scott Fitzgerald', 'Classic', 1925),
+('Sapiens', 'Yuval Noah Harari', 'Non-fiction', 2011),
+('The Hobbit', 'J.R.R. Tolkien', 'Fantasy', 1937);
 
--- Insert tickets
-INSERT INTO tickets (event_id, user_id, price) VALUES
-(1, 1, 2000), (1, 2, 2000),
-(2, 3, 1500), (2, 4, 1500),
-(3, 1, 1800), (3, 5, 1800),
-(4, 2, 2500), (4, 5, 2500),
-(5, 3, 1000), (5, 4, 1000);
-
--- Example query: list tickets per user
-SELECT u.full_name, e.event_name, t.price
-FROM tickets t
-JOIN users u ON t.user_id = u.user_id
-JOIN events e ON t.event_id = e.event_id;
--- Example query
-SELECT * FROM user_favorites;
+-- Insert sample borrow records
+INSERT INTO borrow_records (student_id, book_id, borrow_date, return_date) VALUES
+(1, 2, '2025-10-01', '2025-10-10'),
+(2, 1, '2025-09-25', NULL),
+(3, 5, '2025-10-05', '2025-10-12'),
+(4, 3, '2025-10-03', NULL),
+(5, 4, '2025-10-02', '2025-10-09');
 ```
-
-```sql
--- Example query: list tickets per user
-SELECT u.full_name, e.event_name, t.price
-FROM tickets t
-JOIN users u ON t.user_id = u.user_id
-JOIN events e ON t.event_id = e.event_id;
-```
-
 </details>
-
-<p align="right"><a href="#about-project">back to top</a></p>
 
 ---
 
-# 📊 R Data Analysis <a name="r-data-analysis"></a>
+## 📊 R Data Analysis <a name="r-data-analysis"></a>
 
 <details>
 <summary>Click to expand full R analysis code</summary>
@@ -288,154 +213,130 @@ library(ggplot2)
 
 con <- connect_db()
 
-# 1. Event popularity (number of tickets sold)
-event_sales <- dbGetQuery(con, "
-  SELECT e.event_name, COUNT(t.ticket_id) AS tickets_sold
-  FROM events e
-  LEFT JOIN tickets t ON e.event_id = t.event_id
-  GROUP BY e.event_name
-  ORDER BY tickets_sold DESC;
+# 1. Most Borrowed Books
+most_borrowed <- dbGetQuery(con, "
+  SELECT b.title, COUNT(r.book_id) AS times_borrowed
+  FROM borrow_records r
+  JOIN books b ON r.book_id = b.id
+  GROUP BY b.title
+  ORDER BY times_borrowed DESC;
 ")
-ggplot(event_sales, aes(x = reorder(event_name, tickets_sold), y = tickets_sold, fill = event_name)) +
-  geom_col(show.legend = FALSE) + coord_flip() +
-  labs(title = 'Most Popular Events', x = 'Event', y = 'Tickets Sold') +
+ggplot(most_borrowed, aes(x = reorder(title, times_borrowed), y = times_borrowed, fill = title)) +
+  geom_col(show.legend = FALSE) +
+  coord_flip() +
+  labs(title = 'Most Borrowed Books', x = 'Book Title', y = 'Times Borrowed') +
   theme_minimal()
 
-# 2. Revenue per event
-revenue_event <- dbGetQuery(con, "
-  SELECT e.event_name, SUM(t.quantity) AS total_revenue
-  FROM tickets t
-  JOIN events e ON t.event_id = e.event_id
-  GROUP BY e.event_name;
-")
-ggplot(revenue_event, aes(x = reorder(event_name, total_revenue), y = total_revenue, fill = event_name)) +
-  geom_col(show.legend = FALSE) + coord_flip() +
-  labs(title = 'Revenue by Event', x = 'Event', y = 'Total Revenue (KSh)') +
-  theme_minimal()
 
-# 3. Daily Ticket Sales Trend
-ticket_trend <- dbGetQuery(con, "
-  SELECT DATE(t.purchase_date) AS purchase_date, SUM(t.quantity) AS tickets_sold
-  FROM tickets t
-  GROUP BY DATE(t.purchase_date)
-  ORDER BY purchase_date;
+# 2. Major students
+#major students
+student_major <- dbGetQuery(con, "
+  SELECT major, COUNT(*) AS total_students
+  FROM students
+  GROUP BY major
+  ORDER BY total_students DESC;
 ")
-ggplot(ticket_trend, aes(x = purchase_date, y = tickets_sold)) +
-  geom_line(color = '#0073C2FF', size = 1.2) +
-  geom_point(color = '#E69F00', size = 2) +
-  labs(title = 'Daily Ticket Sales Trend', x = 'Date',y = 'Tickets Sold') +
-  theme_minimal()
-# 4.Customer Distribution by City
-geo_dist <- dbGetQuery(con, "
-  SELECT c.city, COUNT(DISTINCT c.customer_id) AS total_customers FROM customers c JOIN tickets t ON c.customer_id = t.customer_id  GROUP BY c.city
-  ORDER BY total_customers DESC;
-")
-ggplot(geo_dist, aes(x = reorder(city, total_customers), y = total_customers, fill = city)) +
+print(student_major)
+library(dplyr)
+library(ggplot2)
+
+plot5 <- ggplot(student_major, aes(x = reorder(major, total_students), y = total_students, fill = major)) +
   geom_col(show.legend = FALSE) +
   coord_flip() +
   labs(
-    title = 'Customer Distribution by City',
-    x = 'City',
-    y = 'Number of Customers'
+    title = 'Students per Major',
+    x = 'Major',
+    y = 'Total Students'
   ) +
   theme_minimal()
 
+plot5
 ```
 </details>
 
-### Most Popular Events
-<img width="1888" height="857" alt="image" src="https://github.com/user-attachments/assets/25e48f5e-a363-4ed9-bff0-ea2394d7ba02" />
+---
 
-### Revenue Per Event
+## 📊 output for visuals
+** Output for the connections **
+<img width="1366" height="684" alt="image" src="https://github.com/user-attachments/assets/c8a1437d-32c3-4201-a393-0eb783f56083" />
 
-<img width="1895" height="879" alt="image" src="https://github.com/user-attachments/assets/584a1570-a7be-4c14-8909-5e0c093feb78" />
+** Most borrowed books **
+<img width="1366" height="646" alt="image" src="https://github.com/user-attachments/assets/a9b21cf7-bf39-4bdf-8968-6a7e8c5f6f4f" />
 
+** Students per major **
 
-### Daily Ticket Sales Trend
-<img width="1917" height="906" alt="image" src="https://github.com/user-attachments/assets/68d5e0a2-6148-497c-b7f8-7b9090209f65" />
-
-### Customer Distribution By City
-<img width="1920" height="889" alt="image" src="https://github.com/user-attachments/assets/c59a30e2-cdb9-4d20-9f69-0c32cad451a2" />
-
-
-<p align="right"><a href="#about-project">back to top</a></p>
+<img width="1366" height="634" alt="image" src="https://github.com/user-attachments/assets/29eaca48-a494-4836-9dc7-a09e0590d87c" />
 
 ---
 
-# 📖 Data Dictionary <a name="data-dictionary"></a>
+## 📖 Data Dictionary <a name="data-dictionary"></a>
 
-**📖 Full Data Dictionary:** [Check it here](https://github.com/DENNIS-MURITHI/Data-Tools/blob/test_branch/data_dictionary.md)
-
-<p align="right"><a href="#about-project">back to top</a></p>
-
----
-
-# 👥 Authors <a name="authors"></a>
-
-👤 **Evans Kibet**
-
-* GitHub: [@EvansKibet](https://github.com/evans-dotcom)
-* LinkedIn: [LinkedIn](https://www.linkedin.com/in/evans-langat-680b05342/)
-
-<p align="right"><a href="#about-project">back to top</a></p>
-
----
-
-# 🔭 Future Features <a name="future-features"></a>
-
-* Front-end integration with Event Ticketing Project  
-* Advanced analytics (top songs, popular artists, trends)  
-* Playlists, ratings, and user-generated content
-* 
-<p align="right"><a href="#about-project">back to top</a></p>
+| Table | Column | Description |
+|--------|---------|-------------|
+| **students** | id | Unique student ID |
+|  | name | Student’s full name |
+|  | email | Student’s email address |
+|  | enrollment_year | Year of joining |
+|  | major | Field of study |
+| **books** | id | Unique book ID |
+|  | title | Book title |
+|  | author | Book author |
+|  | genre | Book genre |
+|  | published_year | Year published |
+| **borrow_records** | id | Borrow transaction ID |
+|  | student_id | Linked student |
+|  | book_id | Linked book |
+|  | borrow_date | Borrow date |
+|  | return_date | Return date (nullable) |
 
 ---
 
-# 🤝 Contributing <a name="contributing"></a>
+## 👥 Authors <a name="authors"></a>
 
-Contributions, issues, and feature requests are welcome. Open an issue or submit a pull request.
-
-<p align="right"><a href="#about-project">back to top</a></p>
-
----
-
-# ⭐️ Show your support <a name="support"></a>
-
-If you like this project, give it a ⭐️ on GitHub!
-
-<p align="right"><a href="#about-project">back to top</a></p>
+👤 **Penninah Wanjiru**  
+* GitHub: [@Penninah](https://github.com/Penninah116)  
+* LinkedIn: [LinkedIn](https://linkedin.com)
 
 ---
 
-# 🙏 Acknowledgements <a name="acknowledgements"></a>
+## 🔭 Future Features <a name="future-features"></a>
 
-* [Supabase](https://supabase.com/) for PostgreSQL hosting and testing  
-* [Posit](https://docs.posit.co/connect/) Connect Documentation   
-
-<p align="right"><a href="#about-project">back to top</a></p>
-
----
-
-# ❓ FAQ <a name="faq"></a>
-
-**1. How do I run this project in Posit?**  
-Open the repository in **Posit (RStudio)**, install dependencies, and run the R scripts step by step.  
-Make sure your Supabase credentials are set correctly in `connect_db.R`.
-
-**2. What dependencies are needed?**  
-Install the following R packages:  
-```r
-install.packages(c("DBI", "RPostgres", "dplyr", "ggplot2"))
-```
-### 3. Can I use MySQL or other databases?  
-❌ **No.** This project connects only to **Supabase (PostgreSQL)** for consistency and compatibility with R and Posit.
+- Integrate a front-end for book management  
+- Add overdue notifications  
+- Expand data analysis to reading frequency and student habits  
+- Connect Power BI dashboard for trend visualization  
 
 ---
 
-### 4. How do I connect Posit to Supabase?  
-Use the `DBI` and `RPostgres` packages along with your Supabase credentials found in:  
-**Supabase → Project Settings → Database → Connection Info**  
+## 🤝 Contributing <a name="contributing"></a>
 
-# 📝 License <a name="license"></a>
+Contributions are welcome! Fork the repository, create a feature branch, and submit a pull request.
 
-This project is licensed under MIT License - see [LICENSE](LICENSE) for details.
+---
+
+## ⭐️ Show your support <a name="support"></a>
+
+If you like this project, give it a ⭐️ on GitHub and share your insights!
+
+---
+
+## 🙏 Acknowledgements <a name="acknowledgements"></a>
+
+- Supabase – PostgreSQL backend  
+- Posit / RStudio – Data analysis environment  
+
+---
+
+## ❓ FAQ <a name="faq"></a>
+
+**1. How do I connect R to Supabase?**  
+Use DBI + RPostgres as shown in the connection code.
+
+**2. Can I run this locally without Supabase?**  
+Yes, by hosting PostgreSQL locally and replacing the connection credentials.
+
+---
+
+## 📝 License <a name="license"></a>
+
+This project is licensed under the **MIT License** – see [LICENSE](LICENSE) for details.
