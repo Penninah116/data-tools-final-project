@@ -262,8 +262,8 @@ ggplot(most_borrowed, aes(x = reorder(title, times_borrowed), y = times_borrowed
 
 ## 👥 Authors <a name="authors"></a>
 
-👤 **Dennis Murithi**  
-* GitHub: [@DennisMurithi](https://github.com/DENNIS-MURITHI)  
+👤 **Penninah Wanjiru**  
+* GitHub: [@Penninah](https://github.com/Penninah116)  
 * LinkedIn: [LinkedIn](https://linkedin.com)
 
 ---
